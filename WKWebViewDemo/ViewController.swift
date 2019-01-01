@@ -21,12 +21,15 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        initUI()
+        setWebView(nil)
     }
     
-    private func initUI() {
-        // 初始化WKWebView
-        webView = WKWebView(frame: CGRect(x: 0, y: 100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 80))
+    private func setWebView(_ config: WKWebViewConfiguration!) {
+        if config != nil {
+            webView = WKWebView(frame: CGRect(x: 0, y: 120, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 120), configuration: config)
+        } else {
+            webView = WKWebView(frame: CGRect(x: 0, y: 120, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 120))
+        }
         view.addSubview(webView)
     }
     @IBAction func onLoadFileBtnPress(_ sender: Any) {
@@ -51,8 +54,34 @@ class ViewController: UIViewController {
         configuration.userContentController = userContentController
         // 重新通过configuration初始化webView
         webView.removeFromSuperview()
-        webView = WKWebView(frame: CGRect(x: 0, y: 100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 80), configuration: configuration)
-        view.addSubview(webView)
+        setWebView(configuration)
         onLoadFileBtnPress("")
+    }
+    @IBAction func onReceiveH5MsgBtnPress(_ sender: Any) {
+        let userContentController = WKUserContentController()
+        userContentController.add(self, name: "notification")
+        
+        let configuration = WKWebViewConfiguration()
+        configuration.userContentController = userContentController
+        // 重新通过configuration初始化webView
+        webView.removeFromSuperview()
+        setWebView(configuration)
+        onLoadFileBtnPress("")
+    }
+}
+
+// message handler协议，接收JS传过来的消息
+extension ViewController: WKScriptMessageHandler {
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        // message.body即为JS发送过来的消息，JS可以传递任何类型，会自动转成相应的NS类型
+        print(message.body)
+        
+        // 执行html中的JS方法
+        webView.evaluateJavaScript("showMsgOnH5('hello, H5，我已经收到你的消息了')", completionHandler: {
+            (any, error) in
+            if error != nil {
+                print(error!)
+            }
+        })
     }
 }

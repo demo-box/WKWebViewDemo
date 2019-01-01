@@ -39,6 +39,13 @@
                                     <action selector="onLoadFileBtnPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2vV-yH-NpN"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="opa-qA-PQm">
+                                <rect key="frame" x="134" y="63" width="107" height="30"/>
+                                <state key="normal" title="Native与JS通信"/>
+                                <connections>
+                                    <action selector="onReceiveH5MsgBtnPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2dS-fa-hbU"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -47,7 +54,9 @@
                             <constraint firstItem="kFu-9Z-KuS" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Nec-4e-j2A"/>
                             <constraint firstItem="kFu-9Z-KuS" firstAttribute="centerY" secondItem="AR6-xM-EhR" secondAttribute="centerY" id="Tcq-bF-tpS"/>
                             <constraint firstItem="AR6-xM-EhR" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="cl2-S9-Wjf"/>
+                            <constraint firstItem="kFu-9Z-KuS" firstAttribute="centerX" secondItem="opa-qA-PQm" secondAttribute="centerX" id="dOf-4d-Ude"/>
                             <constraint firstItem="68P-9I-Bsp" firstAttribute="centerY" secondItem="AR6-xM-EhR" secondAttribute="centerY" id="gst-Mc-dJ9"/>
+                            <constraint firstItem="opa-qA-PQm" firstAttribute="top" secondItem="kFu-9Z-KuS" secondAttribute="bottom" constant="5" id="uY3-ss-99l"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

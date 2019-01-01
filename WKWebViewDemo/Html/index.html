@@ -13,4 +13,17 @@
       <h1>hello, WKWebView</h1>
     </main>
   </body>
+  <script>
+    // 向native发送消息
+    if (window.webkit) {
+      window.webkit.messageHandlers.notification.postMessage("this is a h5 message");
+    }
+
+    // 当native接收到h5发送的消息后的回调函数
+    function showMsgOnH5(str) {
+      var msg = document.createElement('p');
+      msg.innerText = str;
+      document.getElementById("app").appendChild(msg);
+    }
+  </script>
 </html>
