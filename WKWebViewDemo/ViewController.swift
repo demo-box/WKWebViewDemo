@@ -15,22 +15,37 @@ private let screenW = UIScreen.main.bounds.width
 
 class ViewController: UIViewController {
     var webView: WKWebView!
+    var progressView: UIProgressView!
     var loadFileBtn: UIButton!
     var loadURLBtn: UIButton!
     var injectJSBtn: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+       
         setWebView(nil)
+        setupProgressView()
+    }
+    
+    private func setupProgressView() {
+        progressView = UIProgressView(progressViewStyle: .bar)
+        progressView.frame = CGRect(x: 0, y: 140, width: screenW, height: 5)
+        view.addSubview(progressView)
     }
     
     private func setWebView(_ config: WKWebViewConfiguration!) {
         if config != nil {
-            webView = WKWebView(frame: CGRect(x: 0, y: 120, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 120), configuration: config)
+            webView = WKWebView(frame: CGRect(x: 0, y: 120, width: screenW, height: screenH - 120), configuration: config)
         } else {
-            webView = WKWebView(frame: CGRect(x: 0, y: 120, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 120))
+            webView = WKWebView(frame: CGRect(x: 0, y: 120, width: screenW, height: screenH - 120))
         }
         view.addSubview(webView)
+        
+        // 监听webview estimatedProgress事件
+        webView.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
+        
+        // 重置progress
+        progressView?.setProgress(0, animated: false)
     }
     @IBAction func onLoadFileBtnPress(_ sender: Any) {
         // 加载本地HTML
@@ -83,5 +98,16 @@ extension ViewController: WKScriptMessageHandler {
                 print(error!)
             }
         })
+    }
+}
+
+// kvo
+extension ViewController {
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        print("observer")
+        if keyPath == "estimatedProgress" {
+            progressView.isHidden = webView.estimatedProgress == 1
+            progressView.setProgress(Float(webView.estimatedProgress), animated: true)
+        }
     }
 }
