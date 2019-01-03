@@ -13,7 +13,7 @@ let webView = WKWebView(frame: CGRect(x: 0, y: 120, width: screenW, height: scre
 view.addSubView(webView)
 ```
 
-### 加载网页
+### 加载网页
 #### 加载本地H5页面
 ```swift
 let fileURL = Bundle.main.url(forResource: "Html/index", withExtension: "html")
@@ -53,7 +53,7 @@ if (window.webkit) {
   window.webkit.messageHandlers.notification.postMessage("this is a h5 message");
 }
 
-// 当native接收到h5发送的消息后的回调函数
+// 当native接收到h5发送的消息后的回调函数
 function showMsgOnH5(str) {
   var msg = document.createElement('p');
   msg.innerText = str;
@@ -72,7 +72,7 @@ configuration.userContentController = userContentController
 let webView = WKWebView(frame: CGRect(x: 0, y: 120, width: screenW, height: screenH - 120), configuration: configuration)
 ```
 `userContentController add`的对象需要实现`WKScriptMessageHandler`协议, 来接收H5发送过来的消息;   
-Native可以通过`webView.evaluateJavaScript`执行H5中的JS方法
+Native可以通过`webView.evaluateJavaScript`执行H5中的JS方法
 ```swift
 extension ViewController: WKScriptMessageHandler {
   func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
@@ -91,7 +91,7 @@ extension ViewController: WKScriptMessageHandler {
 ```
 
 ### 显示加载进度条
-需要设置`UIProgressView`控件   
+需要设置`UIProgressView`控件   
 ```swift
 // 设置UIProgressView
 let progressView = UIProgressView(progressViewStyle: .bar)
